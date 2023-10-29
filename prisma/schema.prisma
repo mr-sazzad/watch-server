@@ -1,0 +1,65 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String  @id @default(uuid())
+  name     String
+  email    String  @unique
+  password String
+  role     Role    @default(USER)
+  gender   Gender  @default(NotSet)
+  phone    String?
+  image    String?
+  address  String?
+  age      String?
+  isBanned Boolean @default(false)
+  Cart     Cart[]
+}
+
+model Watch {
+  id      String   @id @default(uuid())
+  title   String
+  price   String
+  image   String
+  reviews Review[]
+  Cart    Cart[]
+}
+
+model Review {
+  id      String @id @default(uuid())
+  name    String
+  image   String
+  review  String
+  watchId String
+  product Watch  @relation(fields: [watchId], references: [id])
+}
+
+model Cart {
+  id      String @id @default(uuid())
+  userId  String
+  watchId String
+  buyer   User   @relation(fields: [userId], references: [id])
+  product Watch  @relation(fields: [watchId], references: [id])
+}
+
+enum Role {
+  USER
+  ADMIN
+  SUPER_ADMIN
+}
+
+enum Gender {
+  Male
+  Female
+  Others
+  NotSet
+}
