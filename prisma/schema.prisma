@@ -28,6 +28,8 @@ model User {
 model Watch {
   id      String   @id @default(uuid())
   title   String
+  status  Status   @default(available)
+  rating  Int
   price   String
   image   String
   reviews Review[]
@@ -35,20 +37,21 @@ model Watch {
 }
 
 model Review {
-  id      String @id @default(uuid())
+  id      String  @id @default(uuid())
   name    String
-  image   String
+  pImage  String?
   review  String
   watchId String
-  product Watch  @relation(fields: [watchId], references: [id])
+  product Watch   @relation(fields: [watchId], references: [id])
 }
 
 model Cart {
-  id      String @id @default(uuid())
-  userId  String
-  watchId String
-  buyer   User   @relation(fields: [userId], references: [id])
-  product Watch  @relation(fields: [watchId], references: [id])
+  id       String @id @default(uuid())
+  userId   String
+  watchId  String
+  quantity Int    @default(1)
+  buyer    User   @relation(fields: [userId], references: [id])
+  product  Watch  @relation(fields: [watchId], references: [id])
 }
 
 enum Role {
@@ -62,4 +65,9 @@ enum Gender {
   Female
   Others
   NotSet
+}
+
+enum Status {
+  available
+  unavailable
 }
