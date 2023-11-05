@@ -12,6 +12,7 @@ export const createUser: RequestHandler = async (req, res, next) => {
     const result = await userService.createUser(token, userData);
 
     res.status(201).json({
+      success: true,
       status: 201,
       message: "User created successfully",
       data: result,
@@ -36,8 +37,9 @@ export const loginUser: RequestHandler = async (req, res, next) => {
     res.cookie("refreshToken", refreshToken, cookieOptions);
 
     res.status(201).json({
+      success: true,
       status: 201,
-      message: "User created successfully",
+      message: "User logged-in successfully",
       data: result?.accessToken,
     });
   } catch (err) {
@@ -47,11 +49,13 @@ export const loginUser: RequestHandler = async (req, res, next) => {
 
 export const updateUser: RequestHandler = async (req, res, next) => {
   try {
+    console.log(req.body, "userData");
     const userData = req.body;
     const token = req.headers.authorization as string;
     const result = await userService.updateUser(token, userData);
 
     res.status(201).json({
+      success: true,
       status: 201,
       message: "User updated successfully",
       data: result,
@@ -69,6 +73,7 @@ export const banUser: RequestHandler = async (req, res, next) => {
     const result = await userService.banUser(token, userId);
 
     res.status(201).json({
+      success: true,
       status: 201,
       message: "User banned successfully",
       data: result,
@@ -83,6 +88,7 @@ export const getAllUsers: RequestHandler = async (req, res, next) => {
     const result = await userService.getAllUsers();
 
     res.status(200).json({
+      success: true,
       status: 200,
       message: "Users fetched successfully",
       data: result,
@@ -98,6 +104,7 @@ export const getSingleUser: RequestHandler = async (req, res, next) => {
     const result = await userService.getSingleUser(userId);
 
     res.status(200).json({
+      success: true,
       status: 200,
       message: "User fetched successfully",
       data: result,

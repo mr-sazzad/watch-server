@@ -28,6 +28,15 @@ export type IGenericErrorMessage = {
   message: string;
 };
 
+export type IDecodedUser = {
+  id: string;
+  email: string;
+  name: string;
+  role: string;
+  iat: number;
+  exp: number;
+};
+
 export enum userRole {
   admin = "ADMIN",
   super_admin = "SUPER_ADMIN",

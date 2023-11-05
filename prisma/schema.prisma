@@ -11,26 +11,27 @@ datasource db {
 }
 
 model User {
-  id       String  @id @default(uuid())
-  name     String
-  email    String  @unique
-  password String
-  role     Role    @default(USER)
-  gender   Gender  @default(NotSet)
-  phone    String?
-  image    String?
-  address  String?
-  age      String?
-  isBanned Boolean @default(false)
-  Cart     Cart[]
+  id         String  @id @default(uuid())
+  name       String
+  email      String  @unique
+  password   String
+  role       Role    @default(USER)
+  gender     Gender  @default(NotSet)
+  phone      String?
+  image      String?
+  coverImage String?
+  address    String?
+  age        String?
+  isBanned   Boolean @default(false)
+  Cart       Cart[]
 }
 
 model Watch {
   id      String   @id @default(uuid())
   title   String
   status  Status   @default(available)
-  rating  Int
-  price   String
+  rating  Int?
+  price   Int
   image   String
   reviews Review[]
   Cart    Cart[]

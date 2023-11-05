@@ -3,10 +3,11 @@ import prisma from "../libs/prisma";
 import bcrypt from "bcryptjs";
 import Jwt, { JwtPayload } from "jsonwebtoken";
 import { jwtHelpers } from "../utils/jwtHelpers";
-import { ICredentials, ITokens, userRole } from "../types";
+import { ICredentials, IDecodedUser, ITokens, userRole } from "../types";
 import ApiError from "../errors/apiError";
 
 const secret = process.env.SECRET_KEY;
+const saltRounds = Number(process.env.SALT_ROUNDS);
 
 const createUser = async (token: string, user: User): Promise<User | null> => {
   const email = user.email;
@@ -37,16 +38,18 @@ const createUser = async (token: string, user: User): Promise<User | null> => {
     throw new Error("User already exists");
   }
 
+  user.password = await bcrypt.hash(user.password, saltRounds);
+
   const newUser = await prisma.user.create({
     data: user,
   });
 
+  console.log(newUser, "new User");
   return newUser;
 };
 
 const loginUser = async (user: ICredentials): Promise<ITokens | null> => {
   const email = user.email;
-  const password = user.password;
 
   const isUserExist = await prisma.user.findUnique({
     where: {
@@ -54,15 +57,20 @@ const loginUser = async (user: ICredentials): Promise<ITokens | null> => {
     },
   });
 
+  console.log(isUserExist);
+
   if (!isUserExist) {
     throw new Error("User does not exist");
   }
 
   if (isUserExist.isBanned) {
-    throw new Error("User is banned");
+    throw new Error("This user id is already banned");
   }
 
-  const isPasswordMatch = await bcrypt.compare(password, isUserExist.password);
+  const isPasswordMatch = await bcrypt.compare(
+    user.password,
+    isUserExist?.password
+  );
 
   if (!isPasswordMatch) {
     throw new Error("Password does not match");
@@ -103,14 +111,14 @@ const getAllUsers = async (): Promise<User[] | null> => {
 };
 
 const getSingleUser = async (userId: string): Promise<User | null> => {
-  const user = await prisma.user.findUnique({
+  const user = await prisma.user.findFirst({
     where: {
       id: userId,
     },
   });
 
   if (!user) {
-    throw new ApiError(404, "User not found|");
+    throw new ApiError(404, "User not found");
   }
 
   return user;
@@ -123,16 +131,14 @@ const updateUser = async (
   const email = user.email;
 
   if (!token) {
-    throw new Error("No token provided");
+    throw new Error("Token Not Provided");
   }
 
-  const decodedToken = Jwt.decode(token);
-
-  console.log(decodedToken, "DECODED TOKEN");
+  const decodedToken = Jwt.decode(token) as JwtPayload;
 
   const isUserExist = await prisma.user.findUnique({
     where: {
-      email,
+      id: decodedToken.id,
     },
   });
 
@@ -146,7 +152,7 @@ const updateUser = async (
 
   const updatedUser = await prisma.user.update({
     where: {
-      email,
+      id: decodedToken.id,
     },
     data: user,
   });
