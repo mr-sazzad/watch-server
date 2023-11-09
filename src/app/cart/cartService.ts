@@ -12,6 +12,10 @@ const getAllFromCart = async (id: string): Promise<Cart[] | null> => {
     where: {
       userId: id,
     },
+    include: {
+      product: true,
+      buyer: true,
+    },
   });
 
   return result;

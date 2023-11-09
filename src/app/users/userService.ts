@@ -6,7 +6,7 @@ import { jwtHelpers } from "../utils/jwtHelpers";
 import { ICredentials, IDecodedUser, ITokens, userRole } from "../types";
 import ApiError from "../errors/apiError";
 
-const secret = process.env.SECRET_KEY;
+const secret = process.env.JWT_SECRET;
 const saltRounds = Number(process.env.SALT_ROUNDS);
 
 const createUser = async (token: string, user: User): Promise<User | null> => {
@@ -114,6 +114,9 @@ const getSingleUser = async (userId: string): Promise<User | null> => {
   const user = await prisma.user.findFirst({
     where: {
       id: userId,
+    },
+    include: {
+      Cart: true,
     },
   });
 

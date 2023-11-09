@@ -15,7 +15,7 @@ model User {
   name       String
   email      String  @unique
   password   String
-  role       Role    @default(USER)
+  role       Role    @default(user)
   gender     Gender  @default(NotSet)
   phone      String?
   image      String?
@@ -29,7 +29,7 @@ model User {
 model Watch {
   id      String   @id @default(uuid())
   title   String
-  status  Status   @default(available)
+  status  Status   @default(Available)
   rating  Int?
   price   Int
   image   String
@@ -47,18 +47,25 @@ model Review {
 }
 
 model Cart {
-  id       String @id @default(uuid())
+  id       String    @id @default(uuid())
   userId   String
   watchId  String
-  quantity Int    @default(1)
-  buyer    User   @relation(fields: [userId], references: [id])
-  product  Watch  @relation(fields: [watchId], references: [id])
+  quantity Int       @default(1)
+  buyer    User      @relation(fields: [userId], references: [id])
+  product  Watch     @relation(fields: [watchId], references: [id])
+  Payment  Payment[]
+}
+
+model Payment {
+  id     String @id @default(uuid())
+  cartId String
+  cart   Cart   @relation(fields: [cartId], references: [id])
 }
 
 enum Role {
-  USER
-  ADMIN
-  SUPER_ADMIN
+  user
+  admin
+  super_admin
 }
 
 enum Gender {
@@ -69,6 +76,6 @@ enum Gender {
 }
 
 enum Status {
-  available
-  unavailable
+  Available
+  Unavailable
 }

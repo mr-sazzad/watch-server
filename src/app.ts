@@ -1,24 +1,27 @@
-import express, { NextFunction, Request, Response } from 'express';
-import cors from 'cors';
-import bodyParser from 'body-parser'
-import { globalRoutes } from './routes';
-import globalErrorHandler from './app/middleware/globalErrorHandler';
+import express, { NextFunction, Request, Response } from "express";
+import cors from "cors";
+import { globalRoutes } from "./routes";
+import globalErrorHandler from "./app/middleware/globalErrorHandler";
 
 const app = express();
 
+app.use(
+  cors({
+    origin: ["http://localhost:3000"],
+    credentials: true,
+  })
+);
+
 app.use(express.json());
-app.use(cors());
-app.use(bodyParser.urlencoded({ extended: false }))
 
-
-app.get('/', (req, res) => {
+app.get("/", (req, res) => {
   res.json({
     status: 200,
     message: "E-commerce",
     author: "sazzad-karim",
     version: "1.0.0",
-    date: 10/29/2023,
-    greetings: "Welcome to the E-commerce project"
+    start_date: "2023-10-29",
+    greetings: "Welcome to the E-commerce project",
   });
 });
 
@@ -39,7 +42,5 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   });
   next();
 });
-
-
 
 export default app;
