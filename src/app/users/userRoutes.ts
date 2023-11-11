@@ -6,6 +6,8 @@ import {
   loginUser,
   updateUser,
   getSingleUser,
+  getAllAdmins,
+  updateSingleUser,
 } from "./userController";
 import { userRole } from "../types";
 import auth from "../middleware/auth";
@@ -20,8 +22,12 @@ router.patch("/ban", auth(userRole.admin, userRole.super_admin), banUser);
 
 router.get("/", getAllUsers);
 
+router.get("/admin-user", auth(userRole.super_admin), getAllAdmins);
+
 router.get("/:id", getSingleUser);
 
 router.patch("/:id", updateUser);
+
+router.patch("/update/:id", updateSingleUser); // auth(userRole.admin),
 
 export const UserRoutes = router;

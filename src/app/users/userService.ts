@@ -101,7 +101,25 @@ const loginUser = async (user: ICredentials): Promise<ITokens | null> => {
 };
 
 const getAllUsers = async (): Promise<User[] | null> => {
-  const users = await prisma.user.findMany();
+  const users = await prisma.user.findMany({
+    where: {
+      role: "USER",
+    },
+  });
+
+  if (!users.length) {
+    return null;
+  }
+
+  return users;
+};
+
+const getAllAdmins = async (): Promise<User[] | null> => {
+  const users = await prisma.user.findMany({
+    where: {
+      role: "ADMIN",
+    },
+  });
 
   if (!users.length) {
     return null;
@@ -131,8 +149,6 @@ const updateUser = async (
   token: string,
   user: Partial<User>
 ): Promise<User | null> => {
-  const email = user.email;
-
   if (!token) {
     throw new Error("Token Not Provided");
   }
@@ -163,6 +179,21 @@ const updateUser = async (
   return updatedUser;
 };
 
+const updateSingleUser = async (id: string, data: Partial<User>) => {
+  const result = await prisma.user.update({
+    where: {
+      id,
+    },
+    data,
+  });
+
+  if (!result) {
+    throw new ApiError(500, "Internal server error");
+  }
+
+  return result;
+};
+
 const banUser = async (token: string, userId: string): Promise<User | null> => {
   if (!token) {
     throw new Error("No token provided");
@@ -190,5 +221,7 @@ export const userService = {
   updateUser,
   banUser,
   getAllUsers,
+  getAllAdmins,
   getSingleUser,
+  updateSingleUser,
 };

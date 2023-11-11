@@ -17,7 +17,7 @@ router.get("/", getAllWatches);
 
 router.get("/:id", getSingleWatch);
 
-router.patch("/:id", auth(userRole.admin, userRole.super_admin), updateWatch);
+router.patch("/:id", updateWatch);
 
 router.delete("/:id", auth(userRole.admin, userRole.super_admin), deleteWatch);
 

@@ -49,10 +49,26 @@ export const loginUser: RequestHandler = async (req, res, next) => {
 
 export const updateUser: RequestHandler = async (req, res, next) => {
   try {
-    console.log(req.body, "userData");
     const userData = req.body;
     const token = req.headers.authorization as string;
     const result = await userService.updateUser(token, userData);
+
+    res.status(201).json({
+      success: true,
+      status: 201,
+      message: "User updated successfully",
+      data: result,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const updateSingleUser: RequestHandler = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const data = req.body;
+    const result = await userService.updateSingleUser(id, data);
 
     res.status(201).json({
       success: true,
@@ -91,6 +107,21 @@ export const getAllUsers: RequestHandler = async (req, res, next) => {
       success: true,
       status: 200,
       message: "Users fetched successfully",
+      data: result,
+    });
+  } catch (err: any) {
+    next(err);
+  }
+};
+
+export const getAllAdmins: RequestHandler = async (req, res, next) => {
+  try {
+    const result = await userService.getAllAdmins();
+
+    res.status(200).json({
+      success: true,
+      status: 200,
+      message: "Admins fetched successfully",
       data: result,
     });
   } catch (err: any) {
