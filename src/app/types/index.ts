@@ -38,7 +38,7 @@ export type IDecodedUser = {
 };
 
 export enum userRole {
-  admin = "ADMIN",
-  super_admin = "SUPER_ADMIN",
-  user = "USER",
+  admin = "admin",
+  super_admin = "super_admin",
+  user = "user",
 }

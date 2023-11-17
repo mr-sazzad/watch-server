@@ -35,6 +35,7 @@ model Watch {
   features String[]
   price    Int
   image    String
+  desc     String
   reviews  Review[]
   Cart     Cart[]
 }
@@ -61,9 +62,13 @@ model Cart {
 }
 
 model Payment {
-  id     String @id @default(uuid())
-  cartId String
-  cart   Cart   @relation(fields: [cartId], references: [id])
+  id        String        @id @default(uuid())
+  status    PaymentStatus @default(Unpaid)
+  cartId    String
+  cart      Cart          @relation(fields: [cartId], references: [id])
+  session   String
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
 }
 
 model Blog {
@@ -91,4 +96,10 @@ enum Gender {
 enum Status {
   Available
   Unavailable
+  Upcoming
+}
+
+enum PaymentStatus {
+  Paid
+  Unpaid
 }

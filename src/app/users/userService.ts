@@ -103,7 +103,7 @@ const loginUser = async (user: ICredentials): Promise<ITokens | null> => {
 const getAllUsers = async (): Promise<User[] | null> => {
   const users = await prisma.user.findMany({
     where: {
-      role: "USER",
+      role: "user",
     },
   });
 
@@ -117,7 +117,7 @@ const getAllUsers = async (): Promise<User[] | null> => {
 const getAllAdmins = async (): Promise<User[] | null> => {
   const users = await prisma.user.findMany({
     where: {
-      role: "ADMIN",
+      role: "admin",
     },
   });
 
