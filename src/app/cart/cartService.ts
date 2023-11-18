@@ -56,10 +56,21 @@ const deleteSingleCart = async (id: string): Promise<Cart | null> => {
   return result;
 };
 
+const removeAllFromCart = async (id: string): Promise<number> => {
+  const result = await prisma.cart.deleteMany({
+    where: {
+      userId: id,
+    },
+  });
+
+  return result.count || 0;
+};
+
 export const cartService = {
   addToCart,
   getAllFromCart,
   getSingleCart,
   deleteSingleCart,
   updateSingleCart,
+  removeAllFromCart,
 };

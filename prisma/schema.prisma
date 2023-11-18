@@ -11,73 +11,73 @@ datasource db {
 }
 
 model User {
-  id         String  @id @default(uuid())
+  id         String    @id @default(uuid())
   name       String
-  email      String  @unique
+  email      String    @unique
   password   String
-  role       Role    @default(user)
-  gender     Gender  @default(NotSet)
+  role       Role      @default(user)
+  gender     Gender    @default(NotSet)
   phone      String?
   image      String?
   coverImage String?
   address    String?
   age        String?
-  isBanned   Boolean @default(false)
+  isBanned   Boolean   @default(false)
   Cart       Cart[]
   Blog       Blog[]
+  Payment    Payment[]
 }
 
 model Watch {
-  id       String   @id @default(uuid())
+  id       String        @id @default(uuid())
   title    String
-  status   Status   @default(Available)
+  status   Status        @default(Available)
   rating   Int?
   features String[]
   price    Int
   image    String
   desc     String
-  reviews  Review[]
+  reviews  WatchReview[]
   Cart     Cart[]
+  Payment  Payment[]
 }
 
-model Review {
-  id           String  @id @default(uuid())
-  name         String
-  profileImage String?
-  review       String
-  watchId      String
-  blogId       String?
-  product      Watch   @relation(fields: [watchId], references: [id])
-  Blog         Blog?   @relation(fields: [blogId], references: [id])
+model WatchReview {
+  id      String @id @default(uuid())
+  review  String
+  rating  Int
+  watchId String
+  product Watch  @relation(fields: [watchId], references: [id], onDelete: Cascade)
 }
 
 model Cart {
-  id       String    @id @default(uuid())
+  id       String @id @default(uuid())
   userId   String
   watchId  String
-  quantity Int       @default(1)
-  buyer    User      @relation(fields: [userId], references: [id])
-  product  Watch     @relation(fields: [watchId], references: [id])
-  Payment  Payment[]
+  quantity Int    @default(1)
+  buyer    User   @relation(fields: [userId], references: [id])
+  product  Watch  @relation(fields: [watchId], references: [id])
 }
 
 model Payment {
   id        String        @id @default(uuid())
   status    PaymentStatus @default(Unpaid)
-  cartId    String
-  cart      Cart          @relation(fields: [cartId], references: [id])
+  userId    String
+  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId String
+  product   Watch         @relation(fields: [productId], references: [id], onDelete: Cascade)
   session   String
+  cartId    String
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
 }
 
 model Blog {
-  id       String   @id @default(uuid())
+  id       String @id @default(uuid())
   title    String
   content  String
   authorId String
-  author   User     @relation(fields: [authorId], references: [id])
-  reviews  Review[]
+  author   User   @relation(fields: [authorId], references: [id])
 }
 
 enum Role {

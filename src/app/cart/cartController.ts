@@ -78,3 +78,18 @@ export const deleteSingleCart: RequestHandler = async (req, res, next) => {
     next(err);
   }
 };
+
+export const removeAllFromCart: RequestHandler = async (req, res, next) => {
+  try {
+    const userId: string = req.params.userId as string;
+    const result = await cartService.removeAllFromCart(userId);
+
+    res.status(200).json({
+      status: 200,
+      message: "cart Cleared successfully",
+      data: result,
+    });
+  } catch (err: any) {
+    next(err);
+  }
+};

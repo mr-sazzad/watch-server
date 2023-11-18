@@ -4,6 +4,7 @@ import {
   deleteSingleCart,
   getAllFromCart,
   getSingleCart,
+  removeAllFromCart,
   updateSingleCart,
 } from "./cartController";
 
@@ -12,6 +13,8 @@ const router = Router();
 router.post("/create", addToCart);
 
 router.get("/", getAllFromCart);
+
+router.delete("/remove/:id", removeAllFromCart);
 
 router.get("/:id", getSingleCart);
 

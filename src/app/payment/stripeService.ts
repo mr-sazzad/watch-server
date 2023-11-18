@@ -1,8 +1,7 @@
-import { PrismaClient } from "@prisma/client";
 import Stripe from "stripe";
 import ApiError from "../errors/apiError";
+import prisma from "../libs/prisma";
 
-const prisma = new PrismaClient();
 const stripe = new Stripe(
   "sk_test_51O7I6YSHcqDbqznpDeLVhjkm8daLBzB8UiImRJowGCFLzK8WBj3R2CbT1HlK8SZr9zmVWMET9Xua9PPMX1m4LwMw00j9tQGxQg"
 ); // Your Stripe secret key
@@ -42,17 +41,15 @@ const createCheckoutSession = async (cartProducts: any) => {
       throw new ApiError(501, "Session URL is null or undefined.");
     }
 
-    console.log("Created Stripe Checkout Session:", session);
-
-    const productIds = cartProducts.map((cart: any) => cart.id);
+    // create payment ⚡
     const payment = await prisma.payment.createMany({
-      data: productIds.map((cartId: string) => ({
-        cartId: cartId,
+      data: cartProducts.map((cart: any) => ({
+        userId: cart.userId,
+        productId: cart.watchId,
         session: session.id,
+        cartId: cart.id,
       })),
     });
-
-    console.log(payment, "payment");
 
     return {
       sessionId: session.id,
@@ -64,32 +61,22 @@ const createCheckoutSession = async (cartProducts: any) => {
   }
 };
 
-const getAllRecentPayments = async (take: number) => {
+const getAllPayments = async (userId: string) => {
   const result = await prisma.payment.findMany({
-    orderBy: {
-      createdAt: "desc",
+    where: {
+      userId: userId,
     },
-    take: take,
     include: {
-      cart: true,
+      product: true,
+      user: true,
     },
   });
-
-  return result;
-};
-
-const getAllPayments = async () => {
-  const result = await prisma.payment.findMany({
-    include: {
-      cart: true,
-    },
-  });
-
   return result;
 };
 
 // handle payment success service
 const handlePaymentSuccess = async (sessionId: string) => {
+  console.log(sessionId, "sessionId");
   try {
     const stripeSession = await stripe.checkout.sessions.retrieve(sessionId);
 
@@ -99,8 +86,6 @@ const handlePaymentSuccess = async (sessionId: string) => {
         data: { status: "Paid" },
       });
     }
-
-    console.log("Payment status updated successfully.");
   } catch (error: any) {
     console.error("Error handling payment success:", error.message);
     throw new ApiError(500, "internal server error");
@@ -110,6 +95,5 @@ const handlePaymentSuccess = async (sessionId: string) => {
 export const stripeService = {
   createCheckoutSession,
   handlePaymentSuccess,
-  getAllRecentPayments,
   getAllPayments,
 };
