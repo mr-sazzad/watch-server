@@ -11,21 +11,22 @@ datasource db {
 }
 
 model User {
-  id         String    @id @default(uuid())
-  name       String
-  email      String    @unique
-  password   String
-  role       Role      @default(user)
-  gender     Gender    @default(NotSet)
-  phone      String?
-  image      String?
-  coverImage String?
-  address    String?
-  age        String?
-  isBanned   Boolean   @default(false)
-  Cart       Cart[]
-  Blog       Blog[]
-  Payment    Payment[]
+  id          String        @id @default(uuid())
+  name        String
+  email       String        @unique
+  password    String
+  role        Role          @default(user)
+  gender      Gender        @default(NotSet)
+  phone       String?
+  image       String?
+  coverImage  String?
+  address     String?
+  age         String?
+  isBanned    Boolean       @default(false)
+  Cart        Cart[]
+  Blog        Blog[]
+  Payment     Payment[]
+  WatchReview WatchReview[]
 }
 
 model Watch {
@@ -43,11 +44,15 @@ model Watch {
 }
 
 model WatchReview {
-  id      String @id @default(uuid())
-  review  String
-  rating  Int
-  watchId String
-  product Watch  @relation(fields: [watchId], references: [id], onDelete: Cascade)
+  id        String   @id @default(uuid())
+  review    String
+  rating    Int
+  userId    String
+  author    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  watchId   String
+  product   Watch    @relation(fields: [watchId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Cart {
