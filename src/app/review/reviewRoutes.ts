@@ -7,6 +7,6 @@ const router = Router();
 
 router.post("/create", auth(userRole.user), createAReview);
 
-router.post("/", getAllReviews);
+router.get("/watch/:id", getAllReviews);
 
 export const ReviewRoutes = router;

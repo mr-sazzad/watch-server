@@ -5,6 +5,7 @@ import { WatchRoutes } from "../app/products/productRoutes";
 import { stripeRoutes } from "../app/payment/paymentRoutes";
 import { BlogRoutes } from "../app/blog/blogRoutes";
 import { ReviewRoutes } from "../app/review/reviewRoutes";
+import { WishlistRoutes } from "../app/wishlist/wishlistRoutes";
 
 const router = Router();
 
@@ -19,5 +20,7 @@ router.use("/payment", stripeRoutes);
 router.use("/blogs", BlogRoutes);
 
 router.use("/reviews", ReviewRoutes);
+
+router.use("/wishlists", WishlistRoutes);
 
 export const globalRoutes = router;

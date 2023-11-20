@@ -9,12 +9,13 @@ const createAReview = async (data: WatchReview): Promise<WatchReview> => {
       id: userId,
     },
   });
+
   if (!isUserExist) {
     throw new ApiError(403, "Unauthorized For Review");
   }
 
   if (isUserExist.role !== "user") {
-    throw new ApiError(403, "Only user can review");
+    throw new ApiError(403, "only user is allowed to submit review");
   }
 
   const result = await prisma.watchReview.create({
@@ -28,6 +29,10 @@ const getAllReviews = async (productId: string): Promise<WatchReview[]> => {
   const result = await prisma.watchReview.findMany({
     where: {
       watchId: productId,
+    },
+    include: {
+      product: true,
+      author: true,
     },
   });
 

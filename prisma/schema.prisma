@@ -27,20 +27,22 @@ model User {
   Blog        Blog[]
   Payment     Payment[]
   WatchReview WatchReview[]
+  Wishlists   Wishlist[]
 }
 
 model Watch {
-  id       String        @id @default(uuid())
-  title    String
-  status   Status        @default(Available)
-  rating   Int?
-  features String[]
-  price    Int
-  image    String
-  desc     String
-  reviews  WatchReview[]
-  Cart     Cart[]
-  Payment  Payment[]
+  id        String        @id @default(uuid())
+  title     String
+  status    Status        @default(Available)
+  rating    Int?
+  features  String[]
+  price     Int
+  image     String
+  desc      String
+  reviews   WatchReview[]
+  Cart      Cart[]
+  Payment   Payment[]
+  Wishlists Wishlist[]
 }
 
 model WatchReview {
@@ -83,6 +85,14 @@ model Blog {
   content  String
   authorId String
   author   User   @relation(fields: [authorId], references: [id])
+}
+
+model Wishlist {
+  id      String @id @default(uuid())
+  userId  String
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  watchId String
+  watch   Watch  @relation(fields: [watchId], references: [id], onDelete: Cascade)
 }
 
 enum Role {
