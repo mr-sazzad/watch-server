@@ -5,7 +5,7 @@ const port = process.env.PORT || 5001;
 
 async function bootstrap() {
   const server: Server = app.listen(port, () => {
-    console.log(`Server Listening on port http://localhost:${port}`);
+    console.log(`welcome to watch server`);
   });
 
   const exitHandler = () => {

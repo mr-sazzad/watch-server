@@ -16,7 +16,7 @@ exports.stripeService = void 0;
 const stripe_1 = __importDefault(require("stripe"));
 const apiError_1 = __importDefault(require("../errors/apiError"));
 const prisma_1 = __importDefault(require("../libs/prisma"));
-const stripe = new stripe_1.default("sk_test_51O7I6YSHcqDbqznpDeLVhjkm8daLBzB8UiImRJowGCFLzK8WBj3R2CbT1HlK8SZr9zmVWMET9Xua9PPMX1m4LwMw00j9tQGxQg"); // Your Stripe secret key
+const stripe = new stripe_1.default("sk_test_51O7I6YSHcqDbqznpDeLVhjkm8daLBzB8UiImRJowGCFLzK8WBj3R2CbT1HlK8SZr9zmVWMET9Xua9PPMX1m4LwMw00j9tQGxQg");
 const DOMAIN = process.env.DOMAIN;
 const createCheckoutSession = (cartProducts) => __awaiter(void 0, void 0, void 0, function* () {
     try {
