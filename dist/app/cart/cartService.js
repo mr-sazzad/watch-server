@@ -59,10 +59,19 @@ const deleteSingleCart = (id) => __awaiter(void 0, void 0, void 0, function* () 
     });
     return result;
 });
+const removeAllFromCart = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield prisma_1.default.cart.deleteMany({
+        where: {
+            userId: id,
+        },
+    });
+    return result.count || 0;
+});
 exports.cartService = {
     addToCart,
     getAllFromCart,
     getSingleCart,
     deleteSingleCart,
     updateSingleCart,
+    removeAllFromCart,
 };

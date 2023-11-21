@@ -4,7 +4,7 @@ import prisma from "../libs/prisma";
 
 const stripe = new Stripe(
   "sk_test_51O7I6YSHcqDbqznpDeLVhjkm8daLBzB8UiImRJowGCFLzK8WBj3R2CbT1HlK8SZr9zmVWMET9Xua9PPMX1m4LwMw00j9tQGxQg"
-); // Your Stripe secret key
+);
 const DOMAIN = process.env.DOMAIN;
 
 const createCheckoutSession = async (cartProducts: any) => {

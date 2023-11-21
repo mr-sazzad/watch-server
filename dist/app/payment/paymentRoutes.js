@@ -5,4 +5,6 @@ const express_1 = require("express");
 const stripeController_1 = require("./stripeController");
 const router = (0, express_1.Router)();
 router.post("/create-checkout-session", stripeController_1.createCheckoutSessionController);
+router.patch("/update/:id", stripeController_1.handlePaymentSuccess);
+router.get("/:id", stripeController_1.getAllPayments);
 exports.stripeRoutes = router;

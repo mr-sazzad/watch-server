@@ -1,10 +1,10 @@
 import { RequestHandler } from "express";
 import { wishlistService } from "./wishlistServices";
 
-export const addToWishlist: RequestHandler = (req, res, next) => {
+export const addToWishlist: RequestHandler = async (req, res, next) => {
   try {
     const data = req.body;
-    const result = wishlistService.addToWishlist(data);
+    const result = await wishlistService.addToWishlist(data);
 
     res.status(201).json({
       status: 201,
@@ -16,11 +16,11 @@ export const addToWishlist: RequestHandler = (req, res, next) => {
   }
 };
 
-export const getAllWishlists: RequestHandler = (req, res, next) => {
+export const getAllWishlists: RequestHandler = async (req, res, next) => {
   try {
     // trying to get all wishlists using userId
     const { id } = req.params;
-    const result = wishlistService.getAllWishlists(id);
+    const result = await wishlistService.getAllWishlists(id);
 
     res.status(200).json({
       status: 200,
@@ -32,11 +32,11 @@ export const getAllWishlists: RequestHandler = (req, res, next) => {
   }
 };
 
-export const deleteSingleWishList: RequestHandler = (req, res, next) => {
+export const deleteSingleWishList: RequestHandler = async (req, res, next) => {
   try {
     // trying to delete single wishlist using wishlist id
     const { id } = req.params;
-    const result = wishlistService.deleteSingleWishlist(id);
+    const result = await wishlistService.deleteSingleWishlist(id);
 
     res.status(200).json({
       status: 200,
@@ -48,11 +48,11 @@ export const deleteSingleWishList: RequestHandler = (req, res, next) => {
   }
 };
 
-export const deleteAllWishLists: RequestHandler = (req, res, next) => {
+export const deleteAllWishLists: RequestHandler = async (req, res, next) => {
   try {
     // trying to delete all wishlists using userId
     const { id } = req.params;
-    const result = wishlistService.deleteAllWishlists(id);
+    const result = await wishlistService.deleteAllWishlists(id);
 
     res.status(200).json({
       status: 200,

@@ -1,5 +1,6 @@
 import { Wishlist } from "@prisma/client";
 import prisma from "../libs/prisma";
+import ApiError from "../errors/apiError";
 
 const addToWishlist = async (data: Wishlist): Promise<Wishlist | null> => {
   const result = await prisma.wishlist.create({ data });
@@ -17,6 +18,10 @@ const getAllWishlists = async (userId: string): Promise<Wishlist[] | null> => {
       watch: true,
     },
   });
+
+  if (!result) {
+    throw new ApiError(500, "something went wrong");
+  }
 
   return result;
 };

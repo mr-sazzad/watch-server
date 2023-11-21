@@ -4,7 +4,7 @@
   "description": "this project was created for my portfolio project",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
     "dev": "ts-node-dev --respawn --transpile-only ./src/server.ts",
     "postinstall": "prisma generate"
   },

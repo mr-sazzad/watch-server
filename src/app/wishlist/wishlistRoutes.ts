@@ -8,7 +8,7 @@ import {
 
 const router = Router();
 
-router.post("/create", addToWishlist);
+router.post("/add", addToWishlist);
 
 router.get("/:id", getAllWishlists);
 

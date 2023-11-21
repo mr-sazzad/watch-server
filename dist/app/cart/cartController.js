@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteSingleCart = exports.updateSingleCart = exports.getSingleCart = exports.getAllFromCart = exports.addToCart = void 0;
+exports.removeAllFromCart = exports.deleteSingleCart = exports.updateSingleCart = exports.getSingleCart = exports.getAllFromCart = exports.addToCart = void 0;
 const cartService_1 = require("./cartService");
 const addToCart = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -87,3 +87,18 @@ const deleteSingleCart = (req, res, next) => __awaiter(void 0, void 0, void 0, f
     }
 });
 exports.deleteSingleCart = deleteSingleCart;
+const removeAllFromCart = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const userId = req.params.userId;
+        const result = yield cartService_1.cartService.removeAllFromCart(userId);
+        res.status(200).json({
+            status: 200,
+            message: "cart Cleared successfully",
+            data: result,
+        });
+    }
+    catch (err) {
+        next(err);
+    }
+});
+exports.removeAllFromCart = removeAllFromCart;
