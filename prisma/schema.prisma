@@ -28,6 +28,8 @@ model User {
   Payment     Payment[]
   WatchReview WatchReview[]
   Wishlists   Wishlist[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
 }
 
 model Watch {
@@ -43,6 +45,8 @@ model Watch {
   Cart      Cart[]
   Payment   Payment[]
   Wishlists Wishlist[]
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
 }
 
 model WatchReview {
@@ -58,12 +62,14 @@ model WatchReview {
 }
 
 model Cart {
-  id       String @id @default(uuid())
-  userId   String
-  watchId  String
-  quantity Int    @default(1)
-  buyer    User   @relation(fields: [userId], references: [id])
-  product  Watch  @relation(fields: [watchId], references: [id])
+  id        String   @id @default(uuid())
+  userId    String
+  watchId   String
+  quantity  Int      @default(1)
+  buyer     User     @relation(fields: [userId], references: [id])
+  product   Watch    @relation(fields: [watchId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Payment {
@@ -80,11 +86,13 @@ model Payment {
 }
 
 model Blog {
-  id       String @id @default(uuid())
-  title    String
-  content  String
-  authorId String
-  author   User   @relation(fields: [authorId], references: [id])
+  id        String   @id @default(uuid())
+  title     String
+  content   String
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Wishlist {

@@ -30,6 +30,34 @@ export const getAllWatches: RequestHandler = async (req, res, next) => {
   }
 };
 
+export const getAllRecentWatches: RequestHandler = async (req, res, next) => {
+  try {
+    const result = await watchService.getAllRecentWatches();
+
+    res.status(200).json({
+      status: 200,
+      message: "Recent Watches fetched successfully",
+      data: result,
+    });
+  } catch (err: any) {
+    next(err);
+  }
+};
+
+export const getAllUpcomingWatches: RequestHandler = async (req, res, next) => {
+  try {
+    const result = await watchService.getAllUpcomingWatches();
+
+    res.status(200).json({
+      status: 200,
+      message: "Upcoming Watches fetched successfully",
+      data: result,
+    });
+  } catch (err: any) {
+    next(err);
+  }
+};
+
 export const getSingleWatch: RequestHandler = async (req, res, next) => {
   try {
     const id = req.params.id;

@@ -9,8 +9,33 @@ const createWatch = async (data: Watch): Promise<Watch | null> => {
   return result;
 };
 
+const getAllRecentWatches = async (): Promise<Watch[] | null> => {
+  const result = await prisma.watch.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+    take: 6,
+  });
+
+  return result;
+};
+
 const getAllWatches = async (): Promise<Watch[] | null> => {
-  const result = await prisma.watch.findMany();
+  const result = await prisma.watch.findMany({
+    where: {
+      status: { not: "Upcoming" },
+    },
+  });
+
+  return result;
+};
+
+const getAllUpcomingWatches = async (): Promise<Watch[] | null> => {
+  const result = await prisma.watch.findMany({
+    where: {
+      status: "Upcoming",
+    },
+  });
 
   return result;
 };
@@ -54,4 +79,6 @@ export const watchService = {
   updateWatch,
   deleteWatch,
   getSingleWatch,
+  getAllUpcomingWatches,
+  getAllRecentWatches,
 };
