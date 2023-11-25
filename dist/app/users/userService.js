@@ -31,7 +31,7 @@ const createUser = (token, user) => __awaiter(void 0, void 0, void 0, function* 
             throw new apiError_1.default(401, "unauthorize access");
         }
         const decodedUser = jsonwebtoken_1.default.decode(token);
-        if ((decodedUser === null || decodedUser === void 0 ? void 0 : decodedUser.role) !== "SUPER_ADMIN") {
+        if ((decodedUser === null || decodedUser === void 0 ? void 0 : decodedUser.role) !== "super_admin") {
             throw new apiError_1.default(401, "unauthorize access");
         }
     }

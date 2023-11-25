@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteWatch = exports.updateWatch = exports.getSingleWatch = exports.getAllWatches = exports.createWatch = void 0;
+exports.deleteWatch = exports.updateWatch = exports.getSingleWatch = exports.getAllUpcomingWatches = exports.getAllRecentWatches = exports.getAllWatches = exports.createWatch = void 0;
 const productService_1 = require("./productService");
 const createWatch = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -40,6 +40,34 @@ const getAllWatches = (req, res, next) => __awaiter(void 0, void 0, void 0, func
     }
 });
 exports.getAllWatches = getAllWatches;
+const getAllRecentWatches = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield productService_1.watchService.getAllRecentWatches();
+        res.status(200).json({
+            status: 200,
+            message: "Recent Watches fetched successfully",
+            data: result,
+        });
+    }
+    catch (err) {
+        next(err);
+    }
+});
+exports.getAllRecentWatches = getAllRecentWatches;
+const getAllUpcomingWatches = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield productService_1.watchService.getAllUpcomingWatches();
+        res.status(200).json({
+            status: 200,
+            message: "Upcoming Watches fetched successfully",
+            data: result,
+        });
+    }
+    catch (err) {
+        next(err);
+    }
+});
+exports.getAllUpcomingWatches = getAllUpcomingWatches;
 const getSingleWatch = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = req.params.id;

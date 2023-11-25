@@ -20,8 +20,29 @@ const createWatch = (data) => __awaiter(void 0, void 0, void 0, function* () {
     });
     return result;
 });
+const getAllRecentWatches = () => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield prisma_1.default.watch.findMany({
+        orderBy: {
+            createdAt: "desc",
+        },
+        take: 6,
+    });
+    return result;
+});
 const getAllWatches = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield prisma_1.default.watch.findMany();
+    const result = yield prisma_1.default.watch.findMany({
+        where: {
+            status: { not: "Upcoming" },
+        },
+    });
+    return result;
+});
+const getAllUpcomingWatches = () => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield prisma_1.default.watch.findMany({
+        where: {
+            status: "Upcoming",
+        },
+    });
     return result;
 });
 const getSingleWatch = (id) => __awaiter(void 0, void 0, void 0, function* () {
@@ -55,4 +76,6 @@ exports.watchService = {
     updateWatch,
     deleteWatch,
     getSingleWatch,
+    getAllUpcomingWatches,
+    getAllRecentWatches,
 };

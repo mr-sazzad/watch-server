@@ -23,7 +23,7 @@ const createUser = async (token: string, user: User): Promise<User | null> => {
 
     const decodedUser = Jwt.decode(token) as JwtPayload;
 
-    if (decodedUser?.role !== "SUPER_ADMIN") {
+    if (decodedUser?.role !== "super_admin") {
       throw new ApiError(401, "unauthorize access");
     }
   }
