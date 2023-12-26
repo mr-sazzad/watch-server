@@ -16,7 +16,8 @@ STRIPE_PRIVET_KEY=
 ```
 
 ```
-⚡ vercel deployed link: https://watch-server-two.vercel.app/
+⚡ vercel deployed link: watch-shop-site.vercel.app
+
 
     for more information please add 💡/api/v1 after Domain
 ```
