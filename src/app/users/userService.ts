@@ -44,7 +44,6 @@ const createUser = async (token: string, user: User): Promise<User | null> => {
     data: user,
   });
 
-  console.log(newUser, "new User");
   return newUser;
 };
 

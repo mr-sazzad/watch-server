@@ -31,3 +31,17 @@ export const getAllReviews: RequestHandler = async (req, res, next) => {
     next(err);
   }
 };
+
+export const getLatestReviews: RequestHandler = async (req, res, next) => {
+  try {
+    const result = await ReviewsServices.getLatestReviews();
+
+    res.status(200).json({
+      status: 200,
+      message: "Review's retrieved successfully",
+      data: result,
+    });
+  } catch (err: any) {
+    next(err);
+  }
+};

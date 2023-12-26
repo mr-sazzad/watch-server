@@ -39,7 +39,23 @@ const getAllReviews = async (productId: string): Promise<WatchReview[]> => {
   return result;
 };
 
+const getLatestReviews = async () => {
+  const result = await prisma.watchReview.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+    take: 12,
+  });
+
+  if (!result) {
+    throw new ApiError(400, "something went wrong");
+  }
+
+  return result;
+};
+
 export const ReviewsServices = {
   createAReview,
   getAllReviews,
+  getLatestReviews,
 };
