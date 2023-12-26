@@ -47,7 +47,6 @@ const createUser = (token, user) => __awaiter(void 0, void 0, void 0, function* 
     const newUser = yield prisma_1.default.user.create({
         data: user,
     });
-    console.log(newUser, "new User");
     return newUser;
 });
 const loginUser = (user) => __awaiter(void 0, void 0, void 0, function* () {

@@ -45,7 +45,20 @@ const getAllReviews = (productId) => __awaiter(void 0, void 0, void 0, function*
     });
     return result;
 });
+const getLatestReviews = () => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield prisma_1.default.watchReview.findMany({
+        orderBy: {
+            createdAt: "desc",
+        },
+        take: 12,
+    });
+    if (!result) {
+        throw new apiError_1.default(400, "something went wrong");
+    }
+    return result;
+});
 exports.ReviewsServices = {
     createAReview,
     getAllReviews,
+    getLatestReviews,
 };

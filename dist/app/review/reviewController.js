@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllReviews = exports.createAReview = void 0;
+exports.getLatestReviews = exports.getAllReviews = exports.createAReview = void 0;
 const reviewServices_1 = require("./reviewServices");
 const createAReview = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const data = req.body;
@@ -41,3 +41,17 @@ const getAllReviews = (req, res, next) => __awaiter(void 0, void 0, void 0, func
     }
 });
 exports.getAllReviews = getAllReviews;
+const getLatestReviews = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield reviewServices_1.ReviewsServices.getLatestReviews();
+        res.status(200).json({
+            status: 200,
+            message: "Review's retrieved successfully",
+            data: result,
+        });
+    }
+    catch (err) {
+        next(err);
+    }
+});
+exports.getLatestReviews = getLatestReviews;

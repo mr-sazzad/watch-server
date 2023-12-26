@@ -11,8 +11,8 @@ const router = Router();
 
 router.post("/create", auth(userRole.user), createAReview);
 
-router.get("/watch/:id", getAllReviews);
-
 router.get("/latest", getLatestReviews);
+
+router.get("/watch/:id", getAllReviews);
 
 export const ReviewRoutes = router;
