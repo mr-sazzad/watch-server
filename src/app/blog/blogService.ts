@@ -53,4 +53,36 @@ const getAllBlogs = async () => {
   return result;
 };
 
-export const BlogService = { getAllBlogs, deleteBlog, updateBlog, createBlog };
+const getLatestBlogs = async () => {
+  const result = await prisma.blog.findMany({
+    orderBy: {
+      id: "desc",
+    },
+    take: 3,
+  });
+
+  return result;
+};
+
+const getSingleBlog = async (blogId: string) => {
+  const result = await prisma.blog.findUnique({
+    where: {
+      id: blogId,
+    },
+  });
+
+  if (!result) {
+    throw new ApiError(500, "Internal server Error");
+  }
+
+  return result;
+};
+
+export const BlogService = {
+  getAllBlogs,
+  deleteBlog,
+  updateBlog,
+  createBlog,
+  getSingleBlog,
+  getLatestBlogs,
+};

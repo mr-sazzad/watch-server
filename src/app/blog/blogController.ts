@@ -45,13 +45,42 @@ export const deleteBlog: RequestHandler = async (req, res, next) => {
   }
 };
 
+export const getSingleBlog: RequestHandler = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const result = await BlogService.getSingleBlog(id);
+
+    res.status(200).json({
+      status: 200,
+      message: "Blog retrieved successfully",
+      data: result,
+    });
+  } catch (err: any) {
+    next(err);
+  }
+};
+
 export const getAllBlogs: RequestHandler = async (req, res, next) => {
   try {
     const result = await BlogService.getAllBlogs();
 
     res.status(200).json({
       status: 200,
-      message: "Blog retrieved successfully",
+      message: "Blogs retrieved successfully",
+      data: result,
+    });
+  } catch (err: any) {
+    next(err);
+  }
+};
+
+export const getLatestBlogs: RequestHandler = async (req, res, next) => {
+  try {
+    const result = await BlogService.getLatestBlogs();
+
+    res.status(200).json({
+      status: 200,
+      message: "Latest Blogs retrieved successfully",
       data: result,
     });
   } catch (err: any) {

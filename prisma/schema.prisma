@@ -88,6 +88,7 @@ model Payment {
 model Blog {
   id        String   @id @default(uuid())
   title     String
+  image     String
   content   String
   authorId  String
   author    User     @relation(fields: [authorId], references: [id])

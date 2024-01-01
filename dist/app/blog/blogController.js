@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllBlogs = exports.deleteBlog = exports.updateBlog = exports.createBlog = void 0;
+exports.getLatestBlogs = exports.getAllBlogs = exports.getSingleBlog = exports.deleteBlog = exports.updateBlog = exports.createBlog = void 0;
 const blogService_1 = require("./blogService");
 const createBlog = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -55,9 +55,10 @@ const deleteBlog = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
     }
 });
 exports.deleteBlog = deleteBlog;
-const getAllBlogs = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const getSingleBlog = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield blogService_1.BlogService.getAllBlogs();
+        const { id } = req.params;
+        const result = yield blogService_1.BlogService.getSingleBlog(id);
         res.status(200).json({
             status: 200,
             message: "Blog retrieved successfully",
@@ -68,4 +69,32 @@ const getAllBlogs = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         next(err);
     }
 });
+exports.getSingleBlog = getSingleBlog;
+const getAllBlogs = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield blogService_1.BlogService.getAllBlogs();
+        res.status(200).json({
+            status: 200,
+            message: "Blogs retrieved successfully",
+            data: result,
+        });
+    }
+    catch (err) {
+        next(err);
+    }
+});
 exports.getAllBlogs = getAllBlogs;
+const getLatestBlogs = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield blogService_1.BlogService.getLatestBlogs();
+        res.status(200).json({
+            status: 200,
+            message: "Latest Blogs retrieved successfully",
+            data: result,
+        });
+    }
+    catch (err) {
+        next(err);
+    }
+});
+exports.getLatestBlogs = getLatestBlogs;

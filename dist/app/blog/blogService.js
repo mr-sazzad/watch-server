@@ -54,4 +54,31 @@ const getAllBlogs = () => __awaiter(void 0, void 0, void 0, function* () {
     }
     return result;
 });
-exports.BlogService = { getAllBlogs, deleteBlog, updateBlog, createBlog };
+const getLatestBlogs = () => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield prisma_1.default.blog.findMany({
+        orderBy: {
+            id: "desc",
+        },
+        take: 3,
+    });
+    return result;
+});
+const getSingleBlog = (blogId) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield prisma_1.default.blog.findUnique({
+        where: {
+            id: blogId,
+        },
+    });
+    if (!result) {
+        throw new apiError_1.default(500, "Internal server Error");
+    }
+    return result;
+});
+exports.BlogService = {
+    getAllBlogs,
+    deleteBlog,
+    updateBlog,
+    createBlog,
+    getSingleBlog,
+    getLatestBlogs,
+};
